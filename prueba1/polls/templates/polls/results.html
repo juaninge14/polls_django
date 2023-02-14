@@ -1,0 +1,17 @@
+
+
+<h1>
+    {{ question.question_text}}         <!-- el titulo que es el nombr ede la pregunta -->
+</h1>
+
+
+<!-- ciclo for que estamos recorriendo sobre el conjunto de respuestas de la pregunta que tenemos como parametro, 
+    luego se dibuja el nombre de la respuesta dos guiones los votos y una funcion que nos permite mostrar 1 voto o si hay mas de 2 votos (plural)  
+    y al final preguntamos si quiere votar de nuevo y lo redireccionara ala vista detail2 con la question_id que ya habiamos definido  -->  
+<ul> 
+    {% for choice in question.choice_set.all %}
+        <li> {{choice.choice_text}} -- {{choice.votes }} vote{{choice.votes | pluralize}} </li>
+    {% endfor %}
+</ul>
+
+<a href="{ {% url 'polls:detail2' question.id %}}"> Votar de nuevo? </a>

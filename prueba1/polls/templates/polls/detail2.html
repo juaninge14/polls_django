@@ -1,0 +1,33 @@
+
+
+<form action=" {% url 'polls:vote' question.id %} " method="post" >     <!-- al ejecutarse se dirige a la app llamada polls y ejecuta la clase vote (con el parametro question_id) 
+            y utilizamos post para que los datos viajen ocultos a traves del protocolo y no esten visibles para todos los usuarios y no se convierta en un problema de seguridad -->
+    {% csrf_token %}            <!--Nos sirve para protegernos de un ataque hacking utilizado en los formularios-->
+    <fieldset>              <!-- Conjunto de campos -->
+        <legend>            <!-- Para poner un titutlo -->
+            <h1>
+                {{question.question_text}}</h1>         <!-- El titulo sera el texto de la pregunta -->
+        </legend>
+        {% if error_message %}          <!-- Si llega un mensaje de error entonces ponemos un parrafo que diga justamente e valor de ese error -->
+            <p>
+                <strong> {{error_message}} </strong>        
+            </p>
+        {% endif %}
+        <!-- Desplegamos las perguntas con el for hecho en una clase pasada -->
+        {% for choice in question.choice_set.all %}
+            <input 
+            type="radio"
+            name="choice"
+            id="choice{{forloop.counter}}"
+            value="{{choice.id}}"          
+            >                                   <!-- (forloop.counter) Devuelve el numero del ciclo en el que va el for, (el id del value es el parametro id de la bd definida en las clases en los modelos mas no la id de HTML. por eso va con punto)-->
+            <label for="choice{{forloop.counter}}">
+                {{choice.choice_text}}
+            </label>
+            <br>
+        {% endfor %}  
+    </fieldset>
+
+    <input type="Submit" value="Votar">
+
+</form>
